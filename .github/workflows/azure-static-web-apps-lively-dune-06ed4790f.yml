@@ -1,4 +1,4 @@
-name: Build and Deploy React App to Azure Static Web Apps
+name: Build and Deploy Frontend to Azure Static Web App
 
 on:
   push:
@@ -7,32 +7,33 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20'
+          node-version: '16' # Usa la versión que necesites
 
       - name: Install dependencies
         run: |
-          cd frontend
           npm install
 
-      - name: Build the app
+      - name: Build
         run: |
-          cd frontend
           npm run build
 
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'sistema-inventario-frontend'  # Asegúrate de que sea el nombre correcto de tu aplicación
+          app-name: 'sistema-inventario-frontend'
           slot-name: 'Production'
-          package: .
+          package: . # Cambia esto según donde se encuentre tu carpeta de salida
