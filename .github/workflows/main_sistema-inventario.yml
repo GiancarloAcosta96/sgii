@@ -24,12 +24,12 @@ jobs:
       # Cambiar al directorio del proyecto backend
       - name: Build with dotnet
         run: |
-          cd backend  # Cambia a la carpeta donde está backend.csproj
+          cd backend
           dotnet build backend.csproj --configuration Release
 
       - name: dotnet publish
         run: |
-          cd backend  # Cambia a la carpeta donde está backend.csproj
+          cd backend
           dotnet publish backend.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
