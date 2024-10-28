@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16' # Usa la versión que necesites
+          node-version: '20'
 
       - name: Install dependencies
         run: |
@@ -36,4 +36,4 @@ jobs:
         with:
           app-name: 'sistema-inventario-frontend'
           slot-name: 'Production'
-          package: . # Cambia esto según donde se encuentre tu carpeta de salida
+          package: .
