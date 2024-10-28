@@ -160,3 +160,4 @@ C:\Users\aeros\Desktop\SGII\backend\bin\Debug\net8.0\Microsoft.DotNet.PlatformAb
 C:\Users\aeros\Desktop\SGII\backend\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\aeros\Desktop\SGII\backend\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
 C:\Users\aeros\Desktop\SGII\backend\bin\Debug\net8.0\itext.bouncy-castle-adapter.dll
+C:\Users\aeros\Desktop\SGII\backend\obj\Debug\net8.0\backend.sourcelink.json
