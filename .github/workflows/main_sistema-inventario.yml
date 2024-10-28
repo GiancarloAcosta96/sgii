@@ -32,6 +32,11 @@ jobs:
           cd backend
           dotnet publish backend.csproj -c Release -o publish
 
+      - name: List files in publish directory
+        run: |
+          cd backend/publish
+          dir
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
