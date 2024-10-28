@@ -66,4 +66,4 @@ jobs:
         with:
           app-name: 'sistema-inventario'
           slot-name: 'Production'
-          package: 'sgii/backend/publish'
+          package: 'D:\a\sgii\backend\publish'
