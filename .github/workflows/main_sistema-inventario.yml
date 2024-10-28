@@ -21,11 +21,16 @@ jobs:
         with:
           dotnet-version: '8.x'
 
+      # Cambiar al directorio del proyecto backend
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: |
+          cd backend  # Cambia a la carpeta donde está backend.csproj
+          dotnet build backend.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: |
+          cd backend  # Cambia a la carpeta donde está backend.csproj
+          dotnet publish backend.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -40,7 +45,7 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
@@ -61,5 +66,4 @@ jobs:
         with:
           app-name: 'sistema-inventario'
           slot-name: 'Production'
-          package: .
-          
+          package: '${{ github.workspace }}/myapp'  # Asegúrate de que esto apunte a la carpeta correcta
