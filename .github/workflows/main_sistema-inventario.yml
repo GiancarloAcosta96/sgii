@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: backend/publish
+          path: D:\a\sgii\backend\publish
 
   deploy:
     runs-on: windows-latest
