@@ -30,13 +30,13 @@ jobs:
       - name: dotnet publish
         run: |
           cd backend
-          dotnet publish backend.csproj -c Release -o "${{ github.workspace }}/backend/publish"
+          dotnet publish backend.csproj -c Release -o publish
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: "${{ github.workspace }}/backend/publish"
+          path: backend/publish
 
   deploy:
     runs-on: windows-latest
