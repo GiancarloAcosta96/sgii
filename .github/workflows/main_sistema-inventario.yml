@@ -2,7 +2,6 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
 name: Build and deploy ASP.Net Core app to Azure Web App - sistema-inventario
-
 on:
   push:
     branches:
@@ -12,32 +11,35 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.x'
-
-      # Cambiar al directorio del proyecto backend
+          
       - name: Build with dotnet
         run: |
           cd backend
           dotnet build backend.csproj --configuration Release
-
+          
       - name: dotnet publish
         run: |
           cd backend
-          dotnet publish backend.csproj -c Release -o "${{ env.DOTNET_ROOT }}/myapp"
-
+          dotnet publish backend.csproj -c Release -o ./publish
+          
+      - name: List files in publish directory
+        run: |
+          cd backend/publish
+          dir
+          
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: "${{ env.DOTNET_ROOT }}/myapp"
-
+          path: backend/publish
+          
   deploy:
     runs-on: windows-latest
     needs: build
@@ -45,25 +47,25 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write # This is required for requesting the JWT
-
+      id-token: write
+      
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+          
       - name: Login to Azure
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_2CEC9E23D60F46618D151523597A0720 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_173CBEF9CA5A450BB474DDEE31788E2D }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1E97EABAEB914DCC9CD6BB7375311589 }}
-
+          
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'sistema-inventario'
           slot-name: 'Production'
-          package: '${{ github.workspace }}/myapp'
+          package: .
